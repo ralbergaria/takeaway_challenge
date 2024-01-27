@@ -47,7 +47,7 @@ class EmployeeEndpointTest {
         EmployeeRequest employeeRequest = EmployeeRequest.builder()
                 .eMail("test@test.com")
                 .fullName("test")
-                .birthday(LocalDate.of(2023,03,01))
+                .birthday(LocalDate.of(2023,3,1))
                 .hobbiesIds(List.of("f8c4dd44-3190-4082-978b-525f6c3f8d3b")).build();
 
         mockMvc.perform(post("/api/v1/employees")
@@ -58,11 +58,11 @@ class EmployeeEndpointTest {
     }
 
     @Test
-    void TheEmployeesShouldNotHaveTheSameEmail() throws Exception {
+    void employeesShouldNotHaveTheSameEmail() throws Exception {
         EmployeeRequest employeeRequest = EmployeeRequest.builder()
                 .eMail("r.albergaria85@gmail.com")
                 .fullName("test")
-                .birthday(LocalDate.of(2023,03,01))
+                .birthday(LocalDate.of(2023,3,1))
                 .hobbiesIds(List.of("f8c4dd44-3190-4082-978b-525f6c3f8d3b")).build();
 
         mockMvc.perform(post("/api/v1/employees")

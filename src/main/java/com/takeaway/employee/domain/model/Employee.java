@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 public class Employee {
     private String id;
-    private String eMail;
+    private String email;
     private String fullName;
     private LocalDate birthday;
     private Set<Hobby> hobbies;

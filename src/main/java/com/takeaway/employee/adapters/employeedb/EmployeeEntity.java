@@ -1,12 +1,10 @@
 package com.takeaway.employee.adapters.employeedb;
 
 import com.takeaway.employee.domain.model.Employee;
-import com.takeaway.employee.domain.model.Hobby;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -24,7 +22,7 @@ class EmployeeEntity {
     @EqualsAndHashCode.Include
     private UUID id;
     @Column(name = "e_mail")
-    private String eMail;
+    private String email;
     @Column(name = "full_name")
     private String fullName;
     @Column(name = "birthday")
@@ -37,20 +35,20 @@ class EmployeeEntity {
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
     private Set<HobbyEntity> hobbies = new HashSet<>();
 
-    EmployeeEntity fromDomain(Employee employee) {
+    static EmployeeEntity fromDomain(Employee employee) {
         return EmployeeEntity.builder()
                 .id(UUID.fromString(employee.getId()))
-                .eMail(employee.getEMail())
+                .email(employee.getEmail())
                 .fullName(employee.getFullName())
                 .birthday(employee.getBirthday())
                 .hobbies(employee.getHobbies().stream().map(HobbyEntity::fromDomain).collect(Collectors.toSet()))
                 .build();
     }
 
-    Employee toDomain(EmployeeEntity employeeEntity) {
+    static Employee toDomain(EmployeeEntity employeeEntity) {
         return Employee.builder()
                 .id(employeeEntity.getId().toString())
-                .eMail(employeeEntity.getEMail())
+                .email(employeeEntity.getEmail())
                 .fullName(employeeEntity.getFullName())
                 .birthday(employeeEntity.getBirthday())
                 .hobbies(employeeEntity.getHobbies().stream().map(HobbyEntity::toDomain).collect(Collectors.toSet()))

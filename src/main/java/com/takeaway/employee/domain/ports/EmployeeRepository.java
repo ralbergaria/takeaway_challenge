@@ -3,15 +3,15 @@ package com.takeaway.employee.domain.ports;
 import com.takeaway.employee.domain.model.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository {
-    Employee create(Employee employee);
+    Employee save(Employee employee);
 
-    Employee update(Employee employee);
+    void delete(Employee employee);
 
-    Employee delete(Employee employee);
+    List<Employee> findAll();
 
-    List<Employee> getAll();
-
-    Employee get(String uuid);
+    Optional<Employee> findById(String uuid);
+    Optional<Employee> findByEmail(String uuid);
 }

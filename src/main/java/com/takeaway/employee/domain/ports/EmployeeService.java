@@ -9,23 +9,31 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeValidations employeeValidations;
     public Employee create(Employee employee) {
-        return null;
+        employeeValidations.validateEmailAlreadyExists(employee.getEmail());
+        return employeeRepository.save(employee);
     }
-
     public Employee update(Employee employee) {
-        return null;
+        Employee existsEmployee = employeeValidations.validateEmployeeExists(employee.getId());
+        if(!existsEmployee.getEmail().equals(employee.getEmail())) {
+            employeeValidations.validateEmailAlreadyExists(employee.getEmail());
+        }
+        return employeeRepository.save(employee);
     }
 
-    public Employee delete(Employee employee) {
-        return null;
+    public void delete(Employee employee) {
+        employeeValidations.validateEmployeeExists(employee.getId());
+        employeeRepository.delete(employee);
     }
 
     public List<Employee> getAll(){
-        return null;
+        return employeeRepository.findAll();
     }
 
-    public Employee getById(String uuid) {
-        return null;
+    public Employee getById(String id) {
+        return employeeValidations.validateEmployeeExists(id);
     }
 }

@@ -26,12 +26,18 @@ class EmployeeJPARepositoryTest {
     void shouldTestFindAll() {
         List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
         assertEquals(1, employeeEntities.size());
-        assertTrue(employeeEntities.stream().allMatch(it -> it.getEMail().contains("r.albergaria85@gmail.com")));
+        assertTrue(employeeEntities.stream().allMatch(it -> it.getEmail().contains("r.albergaria85@gmail.com")));
     }
 
     @Test
     void shouldTestFindById() {
         Optional<EmployeeEntity> employee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0"));
+        assertTrue(employee.isPresent());
+    }
+
+    @Test
+    void shouldTestFindByEmail() {
+        Optional<EmployeeEntity> employee = employeeRepository.findByEmail("r.albergaria85@gmail.com");
         assertTrue(employee.isPresent());
     }
 
@@ -56,7 +62,7 @@ class EmployeeJPARepositoryTest {
     @Test
     void shouldCreateNewEmployee() {
         EmployeeEntity employee = EmployeeEntity.builder()
-                .eMail("test@test.com")
+                .email("test@test.com")
                 .fullName("Test")
                 .birthday(LocalDate.of(2000, 3, 17))
                 .hobbies(Set.of(HobbyEntity.builder().id(UUID.fromString("f8c4dd44-3190-4082-978b-525f6c3f8d3b"))
@@ -65,7 +71,7 @@ class EmployeeJPARepositoryTest {
         Optional<EmployeeEntity> employeeCreated = employeeRepository.findById(employee.getId());
         assertTrue(employeeCreated.isPresent());
         assertEquals(employee.getId(), employeeCreated.get().getId());
-        assertEquals(employee.getEMail(), employeeCreated.get().getEMail());
+        assertEquals(employee.getEmail(), employeeCreated.get().getEmail());
         assertEquals(employee.getFullName(), employeeCreated.get().getFullName());
         assertEquals(employee.getBirthday(), employeeCreated.get().getBirthday());
         assertTrue(employee.getHobbies().stream().allMatch(hobby -> hobby.getId().equals(UUID.fromString("f8c4dd44-3190-4082-978b-525f6c3f8d3b"))));
@@ -73,7 +79,7 @@ class EmployeeJPARepositoryTest {
 
     @Test
     void shouldThrowExceptionEmailIsUnique() {
-        EmployeeEntity employee = EmployeeEntity.builder().eMail("r.albergaria85@gmail.com").build();
+        EmployeeEntity employee = EmployeeEntity.builder().email("r.albergaria85@gmail.com").build();
         employeeRepository.save(employee);
     }
 }

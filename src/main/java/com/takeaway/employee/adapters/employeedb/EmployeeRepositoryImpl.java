@@ -2,34 +2,44 @@ package com.takeaway.employee.adapters.employeedb;
 
 import com.takeaway.employee.domain.model.Employee;
 import com.takeaway.employee.domain.ports.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Repository
 class EmployeeRepositoryImpl implements EmployeeRepository {
+    private final EmployeeJPARepository employeeJPARepository;
     @Override
-    public Employee create(Employee employee) {
-        return null;
+    public Employee save(Employee employee) {
+        EmployeeEntity employeeEntity = EmployeeEntity.fromDomain(employee);
+        return EmployeeEntity.toDomain(employeeJPARepository.save(employeeEntity));
     }
 
     @Override
-    public Employee update(Employee employee) {
-        return null;
+    public void delete(Employee employee) {
+        EmployeeEntity employeeEntity = EmployeeEntity.fromDomain(employee);
+        employeeJPARepository.delete(employeeEntity);
     }
 
     @Override
-    public Employee delete(Employee employee) {
-        return null;
+    public List<Employee> findAll() {
+        return employeeJPARepository.findAll().stream().map(EmployeeEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override
-    public List<Employee> getAll() {
-        return null;
+    public Optional<Employee> findById(String uuid) {
+        Optional<EmployeeEntity> optionalEmployee = employeeJPARepository.findById(UUID.fromString(uuid));
+        return optionalEmployee.map(EmployeeEntity::toDomain);
     }
 
     @Override
-    public Employee get(String uuid) {
-        return null;
+    public Optional<Employee> findByEmail(String email) {
+        Optional<EmployeeEntity> optionalEmployee = employeeJPARepository.findByEmail(email);
+        return optionalEmployee.map(EmployeeEntity::toDomain);
     }
 }
