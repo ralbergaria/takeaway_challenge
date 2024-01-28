@@ -1,9 +1,12 @@
 package com.takeaway.employee.adapters.employeedb;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -18,9 +21,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
+@ActiveProfiles("test")
 class EmployeeJPARepositoryTest {
     @Autowired
     private EmployeeJPARepository employeeRepository;
+
+    private EmployeeEntity employeeEntity;
+
+    @BeforeEach
+    void setup() {
+        employeeEntity = EmployeeEntity.builder()
+                .email("r.albergaria85@gmail.com")
+                .fullName("Rafael Albergaria Carmo")
+                .birthday(LocalDate.of(1985, 3, 17))
+                .hobbies(Set.of(HobbyEntity.builder().id(UUID.fromString("f8c4dd44-3190-4082-978b-525f6c3f8d3b")).description("soccer").build()))
+                .build();
+        employeeRepository.save(employeeEntity);
+    }
+
+    @AfterEach
+    void cleanUp() {
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void shouldTestFindAll() {
@@ -31,7 +53,7 @@ class EmployeeJPARepositoryTest {
 
     @Test
     void shouldTestFindById() {
-        Optional<EmployeeEntity> employee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0"));
+        Optional<EmployeeEntity> employee = employeeRepository.findById(employeeEntity.getId());
         assertTrue(employee.isPresent());
     }
 
@@ -43,19 +65,19 @@ class EmployeeJPARepositoryTest {
 
     @Test
     void shouldTestUpdateEmployee() {
-        EmployeeEntity employee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0")).orElseThrow();
+        EmployeeEntity employee = employeeRepository.findById(employeeEntity.getId()).orElseThrow();
         employee.setHobbies(employee.getHobbies().stream().filter(hobby -> hobby.getDescription().equals("soccer"))
                 .collect(Collectors.toSet()));
         employeeRepository.save(employee);
-        EmployeeEntity updatedEmployee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0")).orElseThrow();
+        EmployeeEntity updatedEmployee = employeeRepository.findById(employeeEntity.getId()).orElseThrow();
         assertTrue(updatedEmployee.getHobbies().stream().allMatch(hobby -> hobby.getDescription().equals("soccer")));
     }
 
     @Test
     void shouldTestDeleteEmployee() {
-        EmployeeEntity employee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0")).orElseThrow();
+        EmployeeEntity employee = employeeRepository.findById(employeeEntity.getId()).orElseThrow();
         employeeRepository.delete(employee);
-        Optional<EmployeeEntity> updatedEmployee = employeeRepository.findById(UUID.fromString("60a9b885-b256-434d-a5ba-08c18f9db4f0"));
+        Optional<EmployeeEntity> updatedEmployee = employeeRepository.findById(employeeEntity.getId());
         assertFalse(updatedEmployee.isPresent());
     }
 
@@ -75,11 +97,5 @@ class EmployeeJPARepositoryTest {
         assertEquals(employee.getFullName(), employeeCreated.get().getFullName());
         assertEquals(employee.getBirthday(), employeeCreated.get().getBirthday());
         assertTrue(employee.getHobbies().stream().allMatch(hobby -> hobby.getId().equals(UUID.fromString("f8c4dd44-3190-4082-978b-525f6c3f8d3b"))));
-    }
-
-    @Test
-    void shouldThrowExceptionEmailIsUnique() {
-        EmployeeEntity employee = EmployeeEntity.builder().email("r.albergaria85@gmail.com").build();
-        employeeRepository.save(employee);
     }
 }

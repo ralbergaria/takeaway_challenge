@@ -16,7 +16,7 @@ class EmployeeValidations {
     Employee validateEmployeeExists(String id) {
         return employeeRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + "not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + " not found."));
     }
     void validateEmailAlreadyExists(String email) {
         Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);

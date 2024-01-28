@@ -24,8 +24,8 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void delete(Employee employee) {
-        employeeValidations.validateEmployeeExists(employee.getId());
+    public void delete(String id) {
+        Employee employee = employeeValidations.validateEmployeeExists(id);
         employeeRepository.delete(employee);
     }
 

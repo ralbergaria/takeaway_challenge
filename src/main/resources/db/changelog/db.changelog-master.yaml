@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Rafael Albergaria Carmo
       changes:
         - createTable:
-            tableName: activities
+            tableName: employees
             columns:
               - column:
                   name: id
@@ -38,30 +38,19 @@ databaseChangeLog:
                   type: varchar(100)
                   constraints:
                     nullable: false
-        - addForeignKeyConstraint:
-                baseColumnNames: supplier_id
-                baseTableName: activities
-                constraintName: fk_suppliers_to_activities_id
-                onDelete: CASCADE
-                onUpdate: CASCADE
-                referencedColumnNames: id
-                referencedTableName: suppliers
-        - createIndex:
-            tableName: activities
-            clustered: true
-            columns:
-              - column:
-                  name: title
-            indexName: idx_activities_title
         - createTable:
             tableName: employees_to_hobbies
             columns:
               - column:
                   name: employee_id
                   type: uuid
+                  constraints:
+                    nullable: false
               - column:
                   name: hobby_id
                   type: uuid
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
             columnNames: employee_id, hobby_id
             constraintName: pk_employees_to_hobbies
@@ -89,31 +78,6 @@ databaseChangeLog:
                       name: id
                       type: uuid
                   - column:
-                      header: e_mail
-                      name: e_mail
-                      type: varchar(50)
-                  - column:
-                      header: full_name
-                      name: full_name
-                      type: varchar(100)
-                  - column:
-                      header: birthday
-                      name: birthday
-                      type: timestamp
-                encoding: UTF-8
-                file: employees.csv
-                relativeToChangelogFile: true
-                schemaName: public
-                separator: ;
-                tableName: employees
-                usePreparedStatements: true
-        - loadData:
-                columns:
-                  - column:
-                      header: id
-                      name: id
-                      type: uuid
-                  - column:
                       header: description
                       name: description
                       type: varchar(100)
@@ -124,20 +88,3 @@ databaseChangeLog:
                 separator: ;
                 tableName: hobbies
                 usePreparedStatements: true
-        - loadData:
-            columns:
-              - column:
-                  header: employee_id
-                  name: id
-                  type: uuid
-              - column:
-                  header: hobby_id
-                  name: id
-                  type: uuid
-            encoding: UTF-8
-            file: employees_to_hobbies.csv
-            relativeToChangelogFile: true
-            schemaName: public
-            separator: ;
-            tableName: employees_to_hobbies
-            usePreparedStatements: true

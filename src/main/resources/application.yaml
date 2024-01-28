@@ -1,7 +1,14 @@
+server:
+  port: 8888
+  error.include-message: always
+  forward-headers-strategy: framework
 spring:
   datasource:
-    app:
-      jdbc-url: jdbc:postgresql://localhost:5432/employee_service
-      username: employee_service
-      password: test
-      driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/employee_service
+    username: employee_service
+    password: test
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate

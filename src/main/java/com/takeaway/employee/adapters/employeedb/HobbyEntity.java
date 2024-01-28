@@ -6,10 +6,10 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
+@Data
 @Builder
-@RequiredArgsConstructor
 @Entity
+@AllArgsConstructor
 @Table(name = "hobbies")
 class HobbyEntity {
     @Id
@@ -17,6 +17,8 @@ class HobbyEntity {
     @EqualsAndHashCode.Include
     private UUID id;
     private String description;
+
+    public HobbyEntity() {}
 
     static HobbyEntity fromDomain(Hobby hobby) {
         return HobbyEntity.builder().id(UUID.fromString(hobby.getId())).description(hobby.getDescription()).build();

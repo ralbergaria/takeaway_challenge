@@ -5,16 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Setter
-@Getter
+@Data
 @Builder
-@RequiredArgsConstructor
 @Entity
+@AllArgsConstructor
 @Table(name = "employees")
 class EmployeeEntity {
     @Id
@@ -31,13 +29,15 @@ class EmployeeEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "employees_to_hobbies",
-            joinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
-    private Set<HobbyEntity> hobbies = new HashSet<>();
+            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
+    private Set<HobbyEntity> hobbies;
+
+    public EmployeeEntity() {}
 
     static EmployeeEntity fromDomain(Employee employee) {
         return EmployeeEntity.builder()
-                .id(UUID.fromString(employee.getId()))
+                .id(employee.getId() != null ? UUID.fromString(employee.getId()) : null)
                 .email(employee.getEmail())
                 .fullName(employee.getFullName())
                 .birthday(employee.getBirthday())
