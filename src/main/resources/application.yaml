@@ -12,3 +12,14 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbit
+    password: carrot
+    queues:
+      employeeQueue: employee-events
+    exchanges:
+      employeeExchange: employee-exchange
+    bindings:
+      routing-key: com.takeaway.employee.modified
