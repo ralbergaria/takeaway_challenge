@@ -1,18 +1,10 @@
 # takeaway_challenge
 
-## Running the project
-
-1. Run with docker
-    - Go to the directory /global-bank-coding-challenge-ralbergaria
-    - Run the command `docker compose up`
-2. Run without docker
-    - Go to the directory /spring-boot/demo
-        - Run `./gradlew build`
-        - Run `./gradlew run`
-3. Swagger
-    - Authorize using the api-key bank123456
-    - http://localhost:9000/webjars/swagger-ui/index.html
-    - http://localhost:9000/swagger-doc/v3/api-doc
+* To run it
+    * Run with docker
+        * Go to the directory /takeaway_challenge
+            * Run the command `docker compose up`
+            * To clean up the app `docker compose up --build`
 
 * Implementation
     * Java 17
@@ -22,11 +14,6 @@
     * Swagger
         * http://localhost:8080/swagger-ui/index.html#/
         * http://localhost:8080/v3/api-docs/TakeawayChallenge
-* To run it
-    * Run with docker
-        * Go to the directory /takeaway_challenge
-            * Run the command `docker compose up`
-            * To clean up the app `docker compose up --build`
 * Comment:
     * hobbies.csv is used to add data in the hobbies table, in future APIs could be created to maintain it.
 
