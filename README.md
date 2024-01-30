@@ -1,5 +1,19 @@
 # takeaway_challenge
 
+## Running the project
+
+1. Run with docker
+    - Go to the directory /global-bank-coding-challenge-ralbergaria
+    - Run the command `docker compose up`
+2. Run without docker
+    - Go to the directory /spring-boot/demo
+        - Run `./gradlew build`
+        - Run `./gradlew run`
+3. Swagger
+    - Authorize using the api-key bank123456
+    - http://localhost:9000/webjars/swagger-ui/index.html
+    - http://localhost:9000/swagger-doc/v3/api-doc
+
 * Implementation
     * Java 17
     * Spring Boot 3.0.4
@@ -68,17 +82,3 @@ Here are some reasons why using the hexagonal architecture in this challenge cou
   By treating the exception and providing informative error messages to the users, you can ensure a smoother
   user experience even when the database is unavailable.
   - Implement caching
-
-## Running the project
-
-1. Run with docker
-    - Go to the directory /global-bank-coding-challenge-ralbergaria
-    - Run the command `docker compose up`
-2. Run without docker
-    - Go to the directory /spring-boot/demo
-        - Run `./gradlew build`
-        - Run `./gradlew run`
-3. Swagger
-    - Authorize using the api-key bank123456
-    - http://localhost:9000/webjars/swagger-ui/index.html
-    - http://localhost:9000/swagger-doc/v3/api-doc
