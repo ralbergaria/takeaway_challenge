@@ -45,13 +45,13 @@ class EmployeeEntity {
                 .build();
     }
 
-    static Employee toDomain(EmployeeEntity employeeEntity) {
+    Employee toDomain() {
         return Employee.builder()
-                .id(employeeEntity.getId().toString())
-                .email(employeeEntity.getEmail())
-                .fullName(employeeEntity.getFullName())
-                .birthday(employeeEntity.getBirthday())
-                .hobbies(employeeEntity.getHobbies().stream().map(HobbyEntity::toDomain).collect(Collectors.toSet()))
+                .id(this.getId().toString())
+                .email(this.getEmail())
+                .fullName(this.getFullName())
+                .birthday(this.getBirthday())
+                .hobbies(this.getHobbies().stream().map(HobbyEntity::toDomain).collect(Collectors.toSet()))
                 .build();
     }
 }

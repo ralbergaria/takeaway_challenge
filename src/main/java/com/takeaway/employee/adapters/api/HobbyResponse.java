@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HobbyResponse {
+class HobbyResponse {
     private String id;
     private String description;
 

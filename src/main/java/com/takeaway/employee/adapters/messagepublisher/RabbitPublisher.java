@@ -1,4 +1,4 @@
-package com.takeaway.employee.adapters.messagebroker;
+package com.takeaway.employee.adapters.messagepublisher;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RabbitPublisher {
-    @Value("spring.rabbitmq.exchanges.employeeExchange")
+class RabbitPublisher {
+    @Value("${message-broker.notification-queue.employee-notification-exchange}")
     private String exchangeName;
 
-    @Value("spring.rabbitmq.bindings.routing-key")
+    @Value("${message-broker.notification-queue.employee-notification-routing-key}")
     private String routingKey;
 
     private final RabbitTemplate rabbitTemplate;

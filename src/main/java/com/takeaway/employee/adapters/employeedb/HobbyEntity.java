@@ -24,7 +24,7 @@ class HobbyEntity {
         return HobbyEntity.builder().id(UUID.fromString(hobby.getId())).description(hobby.getDescription()).build();
     }
 
-    static Hobby toDomain(HobbyEntity hobbyEntity) {
-        return Hobby.builder().id(hobbyEntity.getId().toString()).description(hobbyEntity.getDescription()).build();
+    Hobby toDomain() {
+        return Hobby.builder().id(this.getId().toString()).description(this.getDescription()).build();
     }
 }

@@ -20,7 +20,7 @@ class EmployeeFacade {
     }
 
     EmployeeResponse create(EmployeeCreateRequest employeeCreateRequest) {
-        return EmployeeResponse.fromDomain(employeeService.create(EmployeeCreateRequest.toDomain(employeeCreateRequest)));
+        return EmployeeResponse.fromDomain(employeeService.create(employeeCreateRequest.toDomain()));
     }
 
     EmployeeResponse update(EmployeeUpdateRequest employeeUpdateRequest) {

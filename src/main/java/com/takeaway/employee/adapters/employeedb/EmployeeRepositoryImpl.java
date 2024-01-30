@@ -17,7 +17,7 @@ class EmployeeRepositoryImpl implements EmployeeRepository {
     @Override
     public Employee save(Employee employee) {
         EmployeeEntity employeeEntity = EmployeeEntity.fromDomain(employee);
-        return EmployeeEntity.toDomain(employeeJPARepository.save(employeeEntity));
+        return employeeJPARepository.save(employeeEntity).toDomain();
     }
 
     @Override

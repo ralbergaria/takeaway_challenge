@@ -1,4 +1,4 @@
-package com.takeaway.employee.adapters.configuration;
+package com.takeaway.employee.adapters.api.configuration;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SwaggerConfig {
     @Bean
     public GroupedOpenApi apiVersion1() {
-        return GroupedOpenApi.builder().group("TakeawayChallenge").packagesToScan("com.takeaway.adapters.api").displayName("Takeaway Challenge").build();
+        return GroupedOpenApi.builder().group("TakeawayChallenge").packagesToScan("com.takeaway.employee.adapters.api").displayName("Takeaway Challenge").build();
     }
 }

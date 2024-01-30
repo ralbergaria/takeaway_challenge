@@ -1,12 +1,11 @@
-package com.takeaway.employee.adapters.messagebroker;
+package com.takeaway.employee.adapters.messagepublisher;
 
 import com.takeaway.employee.domain.model.Employee;
 import com.takeaway.employee.domain.model.Hobby;
-import com.takeaway.employee.domain.ports.StatusMessage;
+import com.takeaway.employee.domain.model.StatusMessage;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Set;

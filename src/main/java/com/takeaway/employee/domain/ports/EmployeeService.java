@@ -1,38 +1,41 @@
 package com.takeaway.employee.domain.ports;
 
+import com.takeaway.employee.domain.exceptions.EntityNotFoundException;
+import com.takeaway.employee.domain.exceptions.UniqueEmailException;
 import com.takeaway.employee.domain.model.Employee;
+import com.takeaway.employee.domain.model.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final EmployeeValidations employeeValidations;
-    private final EmployeeMessageBroker employeeMessageBroker;
+    private final EmployeeMessagePublisher employeeMessagePublisher;
     public Employee create(Employee employee) {
-        employeeValidations.validateEmailAlreadyExists(employee.getEmail());
+        validateEmailAlreadyExists(employee.getEmail());
         Employee employeeReturn = employeeRepository.save(employee);
-        employeeMessageBroker.sendMessage(employee, StatusMessage.CREATE);
+        employeeMessagePublisher.sendMessage(employee, StatusMessage.CREATE);
         return employeeReturn;
     }
     public Employee update(Employee employee) {
-        Employee existsEmployee = employeeValidations.validateEmployeeExists(employee.getId());
+        Employee existsEmployee = validateEmployeeExists(employee.getId());
         if(!existsEmployee.getEmail().equals(employee.getEmail())) {
-            employeeValidations.validateEmailAlreadyExists(employee.getEmail());
+            validateEmailAlreadyExists(employee.getEmail());
         }
         Employee employeeReturn = employeeRepository.save(employee);
-        employeeMessageBroker.sendMessage(employee, StatusMessage.UPDATE);
+        employeeMessagePublisher.sendMessage(employee, StatusMessage.UPDATE);
         return employeeReturn;
     }
 
     public void delete(String id) {
-        Employee employee = employeeValidations.validateEmployeeExists(id);
+        Employee employee = validateEmployeeExists(id);
         employeeRepository.delete(employee);
-        employeeMessageBroker.sendMessage(employee, StatusMessage.DELETE);
+        employeeMessagePublisher.sendMessage(employee, StatusMessage.DELETE);
     }
 
     public List<Employee> getAll(){
@@ -40,6 +43,18 @@ public class EmployeeService {
     }
 
     public Employee getById(String id) {
-        return employeeValidations.validateEmployeeExists(id);
+        return validateEmployeeExists(id);
+    }
+
+    protected Employee validateEmployeeExists(String id) {
+        return employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + " not found."));
+    }
+    protected void validateEmailAlreadyExists(String email) {
+        Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);
+        if(employeeOptional.isPresent()) {
+            throw new UniqueEmailException("Email " + email + " already exists.");
+        }
     }
 }

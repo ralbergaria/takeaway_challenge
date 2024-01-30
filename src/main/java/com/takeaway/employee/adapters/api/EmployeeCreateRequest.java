@@ -29,13 +29,13 @@ class EmployeeCreateRequest {
     private String birthday;
     private List<String> hobbiesIds;
 
-    static Employee toDomain(EmployeeCreateRequest employeeCreateRequest) {
+    Employee toDomain() {
         DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
         return Employee.builder()
-                .email(employeeCreateRequest.getEmail())
-                .fullName(employeeCreateRequest.getFullName())
-                .birthday(LocalDate.parse(employeeCreateRequest.getBirthday(), formatter))
-                .hobbies(employeeCreateRequest.getHobbiesIds().stream().map(id -> Hobby.builder().id(id).build()).collect(Collectors.toSet()))
+                .email(this.getEmail())
+                .fullName(this.getFullName())
+                .birthday(LocalDate.parse(this.getBirthday(), formatter))
+                .hobbies(this.getHobbiesIds().stream().map(id -> Hobby.builder().id(id).build()).collect(Collectors.toSet()))
                 .build();
     }
 }

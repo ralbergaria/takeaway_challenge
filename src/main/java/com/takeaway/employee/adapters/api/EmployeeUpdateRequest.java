@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @SuperBuilder
-public class EmployeeUpdateRequest extends EmployeeCreateRequest{
+@NoArgsConstructor
+class EmployeeUpdateRequest extends EmployeeCreateRequest{
     @NotNull
     @NotEmpty
     private String id;
