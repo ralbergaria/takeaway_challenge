@@ -1,8 +1,4 @@
 services:
-  backend:
-    build: .
-    ports:
-      - "8080:8080"
   postgres:
     image: postgres:13.1
     environment:
@@ -19,3 +15,12 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=rabbit
       - RABBITMQ_DEFAULT_PASS=carrot
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "8080:8080"

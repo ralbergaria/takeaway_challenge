@@ -1,10 +1,6 @@
-server:
-  port: 8888
-  error.include-message: always
-  forward-headers-strategy: framework
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/employee_service
+    url: jdbc:postgresql://host.docker.internal:5432/employee_service
     username: employee_service
     password: test
     driver-class-name: org.postgresql.Driver
@@ -13,13 +9,15 @@ spring:
     hibernate:
       ddl-auto: validate
   rabbitmq:
-    host: localhost
+    host: host.docker.internal
     port: 5672
     username: rabbit
     password: carrot
-    queues:
-      employeeQueue: employee-events
-    exchanges:
-      employeeExchange: employee-exchange
-    bindings:
-      routing-key: com.takeaway.employee.modified
+message-broker:
+    event-queue:
+      employee-event-queue: employee-events
+      employee-event-dead-letter-queue: employee-event-dead-letter-queue
+      employee-event-dead-letter-exchange: employee-event-dead-letter-exchange
+    notification-queue:
+      employee-notification-exchange: employee-notification-exchange
+      employee-notification-routing-key: com.takeaway.employee.notification

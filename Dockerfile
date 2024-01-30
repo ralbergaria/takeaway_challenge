@@ -7,5 +7,5 @@ FROM openjdk:17-jdk-slim
 VOLUME /tmp
 WORKDIR /app
 EXPOSE 8080:8080
-COPY --from=buildImage /app/build/libs/*.jar demo.jar
-ENTRYPOINT ["java","-Xms128M","-Xmx512M","-XX:+ExitOnOutOfMemoryError","-Duser.timezone=Europe/Berlin","-jar","demo.jar"]
+COPY --from=buildImage /app/build/libs/*.jar takeaway.jar
+ENTRYPOINT ["java","-Xms128M","-Xmx512M","-XX:+ExitOnOutOfMemoryError","-Duser.timezone=Europe/Berlin","-jar","takeaway.jar"]
